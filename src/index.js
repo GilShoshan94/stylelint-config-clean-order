@@ -10,14 +10,14 @@ const { svgPresentation } = require('./groups/svg-presentation')
 const propertyGroups = [
   ['composes'],
   ['all'],
-  interaction,
   positioning,
   layout,
   boxModel,
-  typography,
   apperance,
   svgPresentation,
-  transition
+  transition,
+  interaction,
+  typography
 ]
 
 const propertiesOrder = propertyGroups.map((properties) => ({
@@ -49,22 +49,37 @@ const config = {
     'order/order': [
       [
         { type: 'at-rule', name: 'import' },
+        { type: 'at-rule', name: 'import', hasBlock: true },
         { type: 'at-rule', name: 'forward' },
         { type: 'at-rule', name: 'use' },
+        'custom-properties',
         'dollar-variables',
         'at-variables',
-        'custom-properties',
         { type: 'at-rule', name: 'custom-media' },
         { type: 'at-rule', name: 'function' },
+        { type: 'at-rule', name: 'define-mixin' },
+        { type: 'at-rule', name: 'define-mixin', hasBlock: true },
         { type: 'at-rule', name: 'mixin' },
+        { type: 'at-rule', name: 'mixin', hasBlock: true },
         { type: 'at-rule', name: 'extend' },
+        { type: 'at-rule', name: 'extend', hasBlock: true },
         { type: 'at-rule', name: 'include' },
+        { type: 'at-rule', name: 'include', hasBlock: true },
         'declarations',
         {
-          type: 'rule',
-          selector: /^&::[\w-]+/,
-          hasBlock: true
+          type: 'rule', 
+          selector: /^&\s+.*/
         },
+        {
+          type: 'rule',
+          selector: /^&::?[\w-.()]+/,
+        },
+        {
+          type: 'rule',
+          selector: /^&::?[\w-.()]+\s+./,
+        },
+        { type: 'at-rule', name: 'nest', hasBlock: true },
+        'at-rules',
         'rules',
         { type: 'at-rule', name: 'media', hasBlock: true }
       ],
